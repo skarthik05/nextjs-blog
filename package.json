@@ -13,7 +13,6 @@
     "gray-matter": "^4.0.3",
     "next": "latest",
     "next-themes": "^0.2.1",
-    "octokit": "^2.0.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "remark": "^14.0.2",
