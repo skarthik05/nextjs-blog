@@ -33,7 +33,7 @@ baseFolders.forEach(file => {
       <h1 className={utilStyles.headingXl}>{postData?.title}</h1>
       <div className={utilStyles.lightText}>
       </div>
-      {postData?postData &&(
+      postData?postData &&(
 
         <div dangerouslySetInnerHTML={{ __html: postData?.contentHtml }} />
 ):
@@ -55,7 +55,7 @@ baseFolders.forEach(file => {
         </ul>
       </section>
       )
-    }
+    
     </article>
   </Layout>
 
