@@ -1,0 +1,124 @@
+{
+    "name": "Pages",
+    "path": "",
+    "children": [
+        {
+            "name": "Pages",
+            "path": "/Pages",
+            "children": [
+                {
+                    "name": "innerpages",
+                    "path": "/Pages/innerpages",
+                    "children": [
+                        {
+                            "name": "sample",
+                            "path": "/Pages/innerpages/sample",
+                            "children": [
+                                {
+                                    "name": "first",
+                                    "path": "/Pages/innerpages/sample/first",
+                                    "children": [
+                                        {
+                                            "name": "readme-first.md",
+                                            "path": "/Pages/innerpages/sample/first/readme-first.md",
+                                            "children": []
+                                        },
+                                        {
+                                            "name": "second",
+                                            "path": "/Pages/innerpages/sample/first/second",
+                                            "children": [
+                                                {
+                                                    "name": "readme-second.md",
+                                                    "path": "/Pages/innerpages/sample/first/second/readme-second.md",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "name": "third",
+                                                    "path": "/Pages/innerpages/sample/first/second/third",
+                                                    "children": [
+                                                        {
+                                                            "name": "readme-third.md",
+                                                            "path": "/Pages/innerpages/sample/first/second/third/readme-third.md",
+                                                            "children": []
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "sample",
+                    "path": "/Pages/sample",
+                    "children": [
+                        {
+                            "name": "first",
+                            "path": "/Pages/sample/first",
+                            "children": [
+                                {
+                                    "name": "readme-first.md",
+                                    "path": "/Pages/sample/first/readme-first.md",
+                                    "children": []
+                                },
+                                {
+                                    "name": "second",
+                                    "path": "/Pages/sample/first/second",
+                                    "children": [
+                                        {
+                                            "name": "readme-second.md",
+                                            "path": "/Pages/sample/first/second/readme-second.md",
+                                            "children": []
+                                        },
+                                        {
+                                            "name": "third",
+                                            "path": "/Pages/sample/first/second/third",
+                                            "children": [
+                                                {
+                                                    "name": "readme-third.md",
+                                                    "path": "/Pages/sample/first/second/third/readme-third.md",
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "root.md",
+            "path": "/root.md",
+            "children": []
+        },
+        {
+            "name": "sample",
+            "path": "/sample",
+            "children": [
+                {
+                    "name": "first",
+                    "path": "/sample/first",
+                    "children": [
+                        {
+                            "name": "first-readme1.md",
+                            "path": "/sample/first/first-readme1.md",
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "test.md",
+            "path": "/test.md",
+            "children": []
+        }
+    ]
+}
+
