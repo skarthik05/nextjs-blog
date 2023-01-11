@@ -121,23 +121,64 @@ if(file.type=='tree')
 */
   return (
   
-<section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Projects</h2>
-        <ul className={utilStyles.list}>
-       
-        {repoList?.length && repoList.map((route,index)=>(
-          <li className={utilStyles.listItem} key={index}>
-
-          <Link key={index} 
-          href={route.name}
-          >
-                      {route.name}
-          </Link>
-          </li>
-  ))}
+    <Layout home>
+    
+    <Head>
+      <title>{siteTitle}</title>
+    </Head>
   
-        </ul>
-      </section>
+   {false &&( <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+      <h2 className={utilStyles.headingLg}>Headers</h2>
+      <ul className={utilStyles.list}>
+     
+      {baseRoutes?.length && baseRoutes.map((route,index)=>(
+        <li className={utilStyles.listItem} key={index}>
+
+        <Link key={index} 
+        href={route.path}
+        >
+                    {route.title}
+        </Link>
+        </li>
+))}
+
+      </ul>
+    </section>)}
+
+<section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+      <h2 className={utilStyles.headingLg}>Projects</h2>
+      <ul className={utilStyles.list}>
+     
+      {repoList?.length && repoList.map((route,index)=>(
+        <li className={utilStyles.listItem} key={index}>
+
+        <Link key={index} 
+        href={route.name}
+        >
+                    {route.name}
+        </Link>
+        </li>
+))}
+
+      </ul>
+    </section>
+    
+    <select value={language} onChange={(e)=>handleLanguage(e.target.value)}>
+
+    {renderListOfLanguages()}
+    </select>
+    
+    <Editor
+    height="90vh"
+    onChange={handleEditorChange}
+    onMount={handleEditorDidMount}
+    beforeMount={handleEditorWillMount}
+    onValidate={handleEditorValidation}
+    defaultLanguage={language}
+    defaultValue="// some comment"
+  />
+
+  </Layout>
   )
 }
 
@@ -147,7 +188,6 @@ export async function getStaticProps(context) {
   const treeList = []//await GetRepoByBranchTreeApi({branchName:'main'})
   const parentChildTree =  []//walk(treeList)
   const repoList = await GetUserRepos({username:"skarthik05"}) ?? []
-  console.log(repoList,'r-p')
   return {
     props: {
       allPostsData,
