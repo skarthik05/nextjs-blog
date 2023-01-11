@@ -146,7 +146,7 @@ export async function getStaticProps(context) {
   const allPostsData = getSortedPostsData();
   const treeList = []//await GetRepoByBranchTreeApi({branchName:'main'})
   const parentChildTree =  []//walk(treeList)
-  const repoList = await GetUserRepos({username:"skarthik05"})
+  const repoList = await GetUserRepos({username:"skarthik05"}) ?? []
   console.log(repoList,'r-p')
   return {
     props: {

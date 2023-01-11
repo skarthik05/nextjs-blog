@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "clean": "next clean"
+    "clean": "next clean",
+    "export":"next export"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
