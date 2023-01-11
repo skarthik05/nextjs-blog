@@ -64,7 +64,7 @@ const baseFolders = files
   </Layout>
 */
   return (
-    <div class="row">
+    <div className="row">
  {parentChildTree?.length ?( <div style={{float:'left',width:'50%'}}>
   <TreeFilter data={parentChildTree} url={asPath} />
   </div>):
