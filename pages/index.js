@@ -13,7 +13,7 @@ import {getSortedPostsData} from '../lib/posts'
 import { GetRepoByBranchTreeApi,GetUserRepos } from '../lib/githubApis';
 import { URIEncode, walk } from '../lib/experiment';
 import { GetGitLabUserRepoList } from '../lib/gitlabApis';
-export default function Home({allPostsData,files,parentChildTree}) {
+export default function Home({allPostsData,files,parentChildTree,repoList}) {
   const [languages,setLanguages] = useState(null)
   const { theme, setTheme } = useTheme()
   const [language, setLanguage] =useState('javascript')
@@ -22,7 +22,7 @@ export default function Home({allPostsData,files,parentChildTree}) {
 const editorRef = useRef(null)
 const monacoRef = useRef(null)
 const test = URIEncode({uri:'rnr-backend'})
-console.log(test,'t-t')
+// console.log(test,'t-t')
 
 const baseRoutes = []
 const uniqueFolders = {}
@@ -157,7 +157,7 @@ if(file.type=='tree')
         <title>{siteTitle}</title>
       </Head>
     
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+     {false &&( <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Headers</h2>
         <ul className={utilStyles.list}>
        
@@ -171,9 +171,28 @@ if(file.type=='tree')
           </Link>
           </li>
   ))}
+  
+        </ul>
+      </section>)}
+
+<section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+        <h2 className={utilStyles.headingLg}>Projects</h2>
+        <ul className={utilStyles.list}>
+       
+        {repoList?.length && repoList.map((route,index)=>(
+          <li className={utilStyles.listItem} key={index}>
+
+          <Link key={index} 
+          href={route.name}
+          >
+                      {route.name}
+          </Link>
+          </li>
+  ))}
+  
         </ul>
       </section>
-
+      
       <select value={language} onChange={(e)=>handleLanguage(e.target.value)}>
 
       {renderListOfLanguages()}
@@ -196,15 +215,16 @@ if(file.type=='tree')
 
 export async function getStaticProps(context) {
   const allPostsData = getSortedPostsData();
-  const treeList = await GetRepoByBranchTreeApi({branchName:'main'})
-  const parentChildTree =  walk(treeList)
+  const treeList = []//await GetRepoByBranchTreeApi({branchName:'main'})
+  const parentChildTree =  []//walk(treeList)
   const repoList = await GetUserRepos({username:"skarthik05"})
-  console.log(repoList,'r-p')
+  // console.log(repoList,'r-p')
   return {
     props: {
       allPostsData,
       files:treeList,
-      parentChildTree
+      parentChildTree,
+      repoList
     },
   };
 }

@@ -32,6 +32,7 @@ const MyTreeView = (props) => {
       setSelected(asPath)
     } ;
   }, []);
+  // console.log({selected},{expanded})
   const renderTree = (nodes) => {
     if (!nodes || nodes.length === 0) {
       return null;

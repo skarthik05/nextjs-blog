@@ -6,25 +6,28 @@ import Link from 'next/link';
 import Layout from "../components/layout";
 // import Date from '../components/date';
 import { getPageData, splitFilesByPath,walk } from "../lib/experiment";
-import {GetRepoByBranchTreeApiRecursive, GetRepoFilesAPI} from '../lib/githubApis'
+import {GetRepoByBranchTreeApiRecursive, GetRepoFilesAPI,GetRepoByBranchTreeApi} from '../lib/githubApis'
 import utilStyles from '../styles/utils.module.css'
 import TreeFilter from '../components/TreeFilter';
 import path from 'path'
 export default function Post({ postData,files,parentChildTree }) {
     const router = useRouter()
     const {asPath,query:{slug}} =router
-// const baseRoutes = []
-// const uniqueFolders = {}
-// const baseFolders = files
-
-// baseFolders.forEach(file => {
-//   let folderName = file.path.replace(slug.join('/'),'').split("/")[0]
-//   baseRoutes.push({
-//     path: '/' + file.path,
-//     title: `${folderName.charAt(0).toUpperCase()}${folderName.slice(1)}`,
-//   })
-
-// })
+    const baseRoutes = []
+const uniqueFolders = {}
+const baseFolders = files
+    baseFolders.forEach(file => {
+      //   let folderName = file.path.split("/")[0]
+      // if(!/.md*$/.test(folderName))
+      //   uniqueFolders[folderName] = null
+      if(file.type=='tree')
+        baseRoutes.push({
+          path:`/${slug[0]}/${file.path}`,
+          title: `${file.path.charAt(0).toUpperCase()}${file.path.slice(1)}`,
+        })
+      
+      
+      })
 /*
  <Layout>
     <Head>
@@ -62,9 +65,27 @@ export default function Post({ postData,files,parentChildTree }) {
 */
   return (
     <div class="row">
-  <div style={{float:'left',width:'50%'}}>
+ {parentChildTree?.length ?( <div style={{float:'left',width:'50%'}}>
   <TreeFilter data={parentChildTree} url={asPath} />
-  </div>
+  </div>):
+  <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+  <h2 className={utilStyles.headingLg}>Headers</h2>
+  <ul className={utilStyles.list}>
+ 
+  {baseRoutes?.length && baseRoutes.map((route,index)=>(
+    <li className={utilStyles.listItem} key={index}>
+
+    <Link key={index} 
+    href={route.path}
+    >
+                {route.title}
+    </Link>
+    </li>
+))}
+
+  </ul>
+</section>
+}
   <div style={{float:'left',width:'50%'}}>
 
   { postData &&(
@@ -106,16 +127,22 @@ return {
 };
 }
 export async function getStaticProps({params:{slug}}) {
-  let postData=null,files=[];
+  let postData=null,files=[],parentChildTree=[],filterByParentFolder=[],treeList=[];
   const isFile=slug[slug.length-1].includes('.')
-  let path = slug.join('/')
-  const recursiveTree = await GetRepoByBranchTreeApiRecursive({branchName:'main'})
-const startWith =new RegExp("^"+slug[0])
-  const filterByParentFolder = recursiveTree.filter((file)=>startWith.test(file.path))
-  const parentChildTree =  walk(filterByParentFolder)
- if(isFile){
-   postData = await getPageData(path)??null;
- }
+  if(slug.length==1){
+    treeList = await GetRepoByBranchTreeApi({branchName:'main',GITHUB_REPO:slug[0]})
+  }else{
+    
+    const startWith =new RegExp("^"+slug[1])
+    // console.log({startWith},{slug})
+    const recursiveTree = await GetRepoByBranchTreeApiRecursive({branchName:'main',GITHUB_REPO:slug[0]})
+    filterByParentFolder = recursiveTree.filter((file)=>startWith.test(file.path))
+    parentChildTree =  walk(filterByParentFolder,slug[0])
+    let path = slug.slice(1).join('/')
+   if(isFile){
+     postData = await getPageData(path,slug[0])??null;
+   }
+  }
 // else{
 // files = []//await GetRepoFilesAPI({path})
 // }
@@ -123,7 +150,7 @@ const startWith =new RegExp("^"+slug[0])
   return {
     props: {
       postData,
-      files,
+      files:treeList,
       parentChildTree
     },
     revalidate: 5
