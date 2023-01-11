@@ -5,7 +5,7 @@
     "build": "next build",
     "start": "next start",
     "clean": "next clean",
-    "export":"next export"
+    "export": "next export"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -17,6 +17,7 @@
     "@monaco-editor/react": "^4.4.6",
     "@mui/material": "^5.11.4",
     "@octokit/rest": "^19.0.5",
+    "axios": "^1.2.2",
     "date-fns": "^2.29.3",
     "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
