@@ -8,6 +8,7 @@ import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import {getSortedPostsData} from '../lib/posts'
 import { GetUserRepos } from '../lib/githubApis';
+
 export default function Home({allPostsData,files,parentChildTree,repoList}) {
   const [languages,setLanguages] = useState(null)
   const [language, setLanguage] =useState('javascript')
@@ -27,6 +28,7 @@ if(file.type=='tree')
 
 
 })
+
   function handleEditorChange(value, event) {
     // let monacorInstance = useMonaco()
     // here is the current value
@@ -58,7 +60,22 @@ if(file.type=='tree')
   function renderListOfLanguages(){
     return languages?.length && languages.map((lang,id)=><option key={id} value={lang}>{lang}</option>)
   }
-  
+  /*
+  <select value={language} onChange={(e)=>handleLanguage(e.target.value)}>
+
+    {renderListOfLanguages()}
+    </select>
+    
+    <Editor
+    height="90vh"
+    onChange={handleEditorChange}
+    onMount={handleEditorDidMount}
+    beforeMount={handleEditorWillMount}
+    onValidate={handleEditorValidation}
+    defaultLanguage={language}
+    defaultValue="// some comment"
+  />
+  */
   return (
   
     <Layout home>
@@ -103,20 +120,7 @@ if(file.type=='tree')
       </ul>
     </section>
     
-    <select value={language} onChange={(e)=>handleLanguage(e.target.value)}>
-
-    {renderListOfLanguages()}
-    </select>
     
-    <Editor
-    height="90vh"
-    onChange={handleEditorChange}
-    onMount={handleEditorDidMount}
-    beforeMount={handleEditorWillMount}
-    onValidate={handleEditorValidation}
-    defaultLanguage={language}
-    defaultValue="// some comment"
-  />
 
   </Layout>
   )
@@ -137,3 +141,6 @@ export async function getStaticProps(context) {
     },
   };
 }
+
+
+
