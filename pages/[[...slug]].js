@@ -16,7 +16,7 @@ import {
 import utilStyles from "../styles/utils.module.css";
 import TreeFilter from "../components/TreeFilter";
 import path from "path";
-export default function Post({ postData, files, parentChildTree,repoList }) {
+export default function Post({ postData, files=[], parentChildTree,repoList }) {
   const router = useRouter();
   const {
     asPath,
@@ -75,6 +75,9 @@ export default function Post({ postData, files, parentChildTree,repoList }) {
         </option>
       ))
     );
+  }
+  const handleLanguage = (language)=>{
+setLanguage(language)
   }
   /*
  <Layout>
@@ -171,6 +174,20 @@ export default function Post({ postData, files, parentChildTree,repoList }) {
           <>
             <h1 className={utilStyles.headingXl}>{postData?.title}</h1>
             <div dangerouslySetInnerHTML={{ __html: postData?.contentHtml }} />
+            <select value={language} onChange={(e)=>handleLanguage(e.target.value)}>
+
+            {renderListOfLanguages()}
+            </select>
+            
+            <Editor
+            height="90vh"
+            onChange={handleEditorChange}
+            onMount={handleEditorDidMount}
+            beforeMount={handleEditorWillMount}
+            onValidate={handleEditorValidation}
+            defaultLanguage={language}
+            defaultValue={postData?.rawMdx}
+          />
           </>
         )}
       </div>
@@ -201,49 +218,51 @@ export async function getStaticPaths() {
   };
 }
 export async function getStaticProps({ params: { slug } }) {
+ try{
   let postData = null,
-    files = [],
-    parentChildTree = [],
-    repoList=[],
-    filterByParentFolder = [],
-    treeList = [];
-  if (!slug?.length){
+  files = [],
+  parentChildTree = [],
+  repoList=[],
+  filterByParentFolder = [],
+  treeList = [];
+  console.log({slug})
+if (!slug?.length){
 
-    repoList = await GetUserRepos({ username: "skarthik05" }) ?? [];
-  }
-  else if(slug.length == 1) {
-    treeList = await GetRepoByBranchTreeApi({
-      branchName: "main",
-      GITHUB_REPO: slug[0],
-    });
-  } else {
-    const startWith = new RegExp("^" + slug[1]);
-    // console.log({startWith},{slug})
-    const recursiveTree = await GetRepoByBranchTreeApiRecursive({
-      branchName: "main",
-      GITHUB_REPO: slug[0],
-    });
-    filterByParentFolder = recursiveTree.filter((file) =>
-      startWith.test(file.path)
-    );
-    parentChildTree = walk(filterByParentFolder, slug[0]);
-    let path = slug.slice(1).join("/");
-  const isFile = slug[slug.length - 1].includes(".");
+  repoList = await GetUserRepos({ username: "skarthik05" }) ?? [];
+}
+else if(slug.length == 1) {
+  treeList = await GetRepoByBranchTreeApi({
+    branchName: "main",
+    GITHUB_REPO: slug[0],
+  });
+} else {
+  const startWith = new RegExp("^" + slug[1]);
+  // console.log({startWith},{slug})
+  const recursiveTree = await GetRepoByBranchTreeApiRecursive({
+    branchName: "main",
+    GITHUB_REPO: slug[0],
+  });
+  filterByParentFolder = recursiveTree.filter((file) =>
+    startWith.test(file.path)
+  );
+  parentChildTree = walk(filterByParentFolder, slug[0]);
+  let path = slug.slice(1).join("/");
+const isFile = slug[slug.length - 1].includes(".");
 
-    if (isFile) {
-      postData = (await getPageData(path, slug[0])) ?? null;
-    }
+  if (isFile) {
+    postData = (await getPageData(path, slug[0])) ?? null;
   }
-  // else{
-  // files = []//await GetRepoFilesAPI({path})
-  // }
-  return {
-    props: {
-      postData,
-      files: treeList,
-      parentChildTree,
-      repoList
-    },
-    revalidate: 5,
-  };
+}
+return {
+  props: {
+    postData,
+    files: treeList,
+    parentChildTree,
+    repoList
+  },
+};
+ }
+ catch(e){
+  console.error(e,'e')
+ }
 }

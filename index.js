@@ -4,10 +4,10 @@ import { useRef, useState } from 'react';
 import Link from 'next/link';
 
 
-import Layout, { siteTitle } from '../components/layout'
+import Layout, { siteTitle } from './components/layout'
 import utilStyles from '../styles/utils.module.css'
-import {getSortedPostsData} from '../lib/posts'
-import { GetUserRepos } from '../lib/githubApis';
+import {getSortedPostsData} from './lib/posts'
+import { GetUserRepos } from './lib/githubApis';
 
 export default function Home({allPostsData,files,parentChildTree,repoList}) {
   const [languages,setLanguages] = useState(null)
